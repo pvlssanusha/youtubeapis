@@ -5,9 +5,11 @@ from flask_cors import CORS  # Optional: for handling Cross-Origin Resource Shar
 
 app = Flask(__name__)
 CORS(app)  # Optional: Enable CORS for all routes
-
+from dotenv import load_dotenv
+load_dotenv()
+import os
 # Replace 'YOUR_YOUTUBE_API_KEY' with your actual YouTube API key
-API_KEY = 'YOUR_YOUTUBE_API_KEY'
+API_KEY = os.getenv("GEMINI_API_KEY")
 youtube = build('youtube', 'v3', developerKey=API_KEY)
 
 @app.route('/search_videos', methods=['GET'])
