@@ -8,16 +8,17 @@ CORS(app)  # Optional: Enable CORS for all routes
 from dotenv import load_dotenv
 load_dotenv()
 import os
+import json
 # Replace 'YOUR_YOUTUBE_API_KEY' with your actual YouTube API key
 API_KEY = os.getenv("GEMINI_API_KEY")
 youtube = build('youtube', 'v3', developerKey=API_KEY)
 
-@app.route('/search_videos', methods=['GET'])
+@app.route('/', methods=['GET'])
 def search_videos():
     try:
         # Get the search topic from the request's query parameters
-        search_topic = request.args.get('term', '')
-
+        search_topic = request.get_json().get('topic')
+        #print(search_topic)
         if not search_topic:
             return jsonify({"error": "Please provide a search keyword."}), 400
 
@@ -30,7 +31,7 @@ def search_videos():
             part='id',
             maxResults=max_results
         ).execute()
-
+        #print(search_response)
         # Extract video IDs from the search results
         video_ids = [search_result['id']['videoId'] for search_result in search_response.get('items', [])]
 
