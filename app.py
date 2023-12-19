@@ -13,7 +13,7 @@ import json
 API_KEY = os.getenv("GEMINI_API_KEY")
 youtube = build('youtube', 'v3', developerKey=API_KEY)
 
-@app.route('/', methods=['GET'])
+@app.route('/', methods=['POST'])
 def search_videos():
     try:
         # Get the search topic from the request's query parameters
